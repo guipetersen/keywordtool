@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <title>
+            SDP Tools - Keyword Manager
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- CSS are placed here -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+        <style>
+            body {
+                padding-top: 60px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+
+                    <h3><a href="#">Segredos da Performance - Tools</a></h3>
+
+                    <!-- Everything you want hidden at 940px or less, place within here -->
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="#">Home</a></li>
+                        </ul> 
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <!-- Container -->
+        <div class="container">
+
+            <!-- Content -->
+
+
+    <h1>Preencha o formulario:</h1>
+    
+    <br />
+    <div style="min-height: 370px;">
+        <div style="float:left;">
+
+            <form id="formDb">
+            
+                <label>Detectar</label>
+                <div class="input-group">
+                    <input type="text" name="detect" class="form-control" >
+                </div>
+
+                <label>Palavras</label>
+                <div class="input-group">
+                    <textarea style="margin: 0px; width: 396px; height: 222px;" class="form-control" name="words"></textarea>
+                </div>
+
+                <br />
+                
+                <div class="btn-group">
+                    <a class="btn btn-success">Executar</span></a>
+                </div>
+
+                <br />
+
+            </form>
+        </div>
+        
+        <div style="float:left;margin-left:100px;">
+            <label>Resultado</label>
+            <div class="input-group">
+                <textarea id="result" style="margin: 0px; width: 396px; height: 301px;" class="form-control"></textarea>
+            </div>
+
+        </div>
+    </div>
+    
+    <br />
+    <div style="position:relative">
+        <div class="alert alert-danger" style="display:none"></div>
+    </div>
+
+    <!-- Scripts are placed here -->
+    <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $('.btn-success').click(function() {
+            $('.alert-danger').fadeOut();
+
+            if($("textarea[name='words']").val().length == 0) {
+                
+                $('.alert-danger')
+                .fadeIn()
+                .html('Preencha a lista de Palavras!');
+
+                return false;
+            } else if($("input[name='detect']").val().length == 0) {
+                
+                $('.alert-danger')
+                .fadeIn()
+                .html('Preencha a palavra que deseja detectar!');
+
+                return false;
+            }
+
+            var words = $("textarea[name='words']").val().toLowerCase(),
+            detect = $("input[name='detect']").val().toLowerCase(),
+            exploded = words.split("\n"),
+            data = '';
+
+            for(var i = 0; i < exploded.length; i++) {
+                var line = exploded[i],
+                after = (line.search(" " + detect) >= 0),
+                before = (line.search(detect + " ") >= 0),
+                equal = (line != detect);
+                
+                //Detect word
+                if(!(after || before || !equal)) {
+                    data += line + "\n";
+                }
+            }
+
+            $('#result').val(data);
+        });
+    </script>
+    </body>
+</html>
+
